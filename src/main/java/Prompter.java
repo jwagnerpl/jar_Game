@@ -1,16 +1,18 @@
-import java.util.Random;
 import java.util.Scanner; 
 
 public class Prompter{
-    Random random = new Random();
-    Scanner scan = new Scanner(System.in);
-    Jar jar = new Jar();
-    int firstGuess;
     
+    Scanner scan = new Scanner(System.in);
+    String jarItem;
+    int maxJarItems;
+    Jar jar = new Jar(jarItem, maxJarItems);
+    int firstGuess;
+  
+  
     int incorrectAnswer(int incorrectGuess, int jarCount){
       
-      while(incorrectGuess > 1000) {
-        System.out.println("Sorry, please guess a number between 1 - 1000");
+      while(incorrectGuess > jar.maxJarItems) {
+        System.out.printf("Sorry, please guess a number between 1 - jar.maxJarItems");
         incorrectGuess = scan.nextInt();
         }
        
@@ -25,25 +27,24 @@ public class Prompter{
     }
 
     void correctAnswer(int guessCount){
-    System.out.printf("You got it in %s attempt(s).", guessCount);
+    System.out.printf("You got it in %s attempts.", guessCount);
     }  
   
     void setGameSettings(){
-    System.out.println("What type of item does the jar hold?");  
-    jar.jarItem = scan.nextLine();
-    
-    System.out.printf("What is the maximum amount of %s?\n", jar.jarItem);
-    jar.maxJarItems = scan.nextInt();
-    
-    jar.randomJarQuantity = random.nextInt(jar.maxJarItems)+1;
+      System.out.println("What type of item does the jar hold?");  
+      jar.jarItem = scan.nextLine();
+      
+      System.out.printf("What is the maximum amount of %s?\n", jar.jarItem);
+      jar.maxJarItems = scan.nextInt();
+      jar.fill(jar.maxJarItems);
     } 
   
     void startGame(){
       System.out.printf("How many %s are in the jar?\nPick a number between 1 and %s.\n", jar.jarItem, jar.maxJarItems);
       int guess = scan.nextInt();
   
-      while(guess > 1000) {
-        System.out.println("Sorry, please guess a number between 1 - 1000");
+      while(guess > jar.maxJarItems) {
+        System.out.printf("Sorry, please guess a number between 1 - %s\n",jar.maxJarItems);
         guess = scan.nextInt();
       }
      jar.guessCount = 1;
